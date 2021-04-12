@@ -5,7 +5,6 @@ name = "pypi"
 
 [packages]
 pydantic = "*"
-click = "*"
 
 [dev-packages]
 mkdocs-material = "*"
