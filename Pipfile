@@ -4,6 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+pydantic = "*"
+click = "*"
 
 [dev-packages]
 mkdocs-material = "*"
@@ -11,3 +13,6 @@ mkdocstrings = "*"
 
 [requires]
 python_version = "3.8"
+
+[scripts]
+test = "python -m unittest discover -v"
