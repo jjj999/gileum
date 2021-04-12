@@ -5,7 +5,7 @@
 
 ## Installing
 
-- Python: >= 3.6
+- Python: >= 3.8
 
 ```
 python -m pip install gileum
@@ -42,7 +42,7 @@ load_glms_at(path_to_config)
 
 Note that the default suffix of configuration files is `.glm.py`, e.g. `config.glm.py`. There is also another function named `gileum.load_glms_in()`, which loads all the configuration files in specified directory.
 
-Fianlly, the developer can access to the `SampleGileum` object loaded by calling `gileum.get_glm_manager()` function and obtaining a `gileum.GileumManager` object. And then, the manager make you access to the `SampleGileum` object by calling its `get_glm()` method:
+Fianlly, the developer can access to the `SampleGileum` objects loaded by calling `gileum.get_glm_manager()` function and obtaining a `gileum.GileumManager` object. And then, the manager make you access to the `SampleGileum` objects by calling its `get_glm()` method:
 
 ```python
 from gileum import get_glm_manger
@@ -58,7 +58,7 @@ assert config_test.glm_name == "test"
 
 ### User-side
 
-A user of the app above needs to create a configuration file and generate two `SimpleGileum` objects. The location of the configuration file depends on apps the user uses. Now, let's assume that the name of the app package is *sample_app*, and in the app, the location is working directory. For example, the user can create a configuration file named `config.glm.py` and generate the `SimpleGileum` objects:
+A user of the app above needs to create a configuration file and generate two `SimpleGileum` objects. The location of the configuration file depends on apps the user uses. Now, let's assume that the name of the app package is *sample_app*, and in the app, the location is user's working directory. For example, the user can create a configuration file named `config.glm.py` and generate the `SimpleGileum` objects:
 
 ```python
 # config.glm.py
