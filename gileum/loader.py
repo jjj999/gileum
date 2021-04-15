@@ -18,7 +18,8 @@ def _convert2relative_path(path: str) -> str:
 
 
 def _import_directly(file: str) -> ModuleSpec:
-    file = _convert2relative_path(file)
+    if os.path.isabs(file):
+        file = _convert2relative_path(file)
     mod_name = file.replace(os.sep, ".")
     spec = importlib.util.spec_from_file_location(mod_name, file)
     mod = importlib.util.module_from_spec(spec)
