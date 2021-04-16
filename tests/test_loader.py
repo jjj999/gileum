@@ -9,6 +9,7 @@ from gileum.loader import (
 from gileum.manager import (
     GileumManager,
     init_glm_manager,
+    get_glm,
     _reset_glm_manager,
 )
 from gileum.test import MockGileum
@@ -25,7 +26,7 @@ class TestLoader(unittest.TestCase):
 
     def setUp(self) -> None:
         _reset_glm_manager()
-        self.manager = init_glm_manager(GileumManager())
+        init_glm_manager(GileumManager())
 
     def test_list_glmfiles(self) -> None:
         result = list_glmfiles(DIR_RES)
@@ -42,12 +43,12 @@ class TestLoader(unittest.TestCase):
 
     def test_load_glms_at(self) -> None:
         load_glms_at(join(DIR_RES, FILE_SETTING))
-        glm = self.manager.get_glm(GLM_NAME, MockGileum)
+        glm = get_glm(GLM_NAME, MockGileum)
         self.assertGileum(glm)
 
     def test_load_glms_in(self) -> None:
         load_glms_in(DIR_RES)
-        glm = self.manager.get_glm(GLM_NAME, MockGileum)
+        glm = get_glm(GLM_NAME, MockGileum)
         self.assertGileum(glm)
 
 

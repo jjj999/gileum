@@ -1,4 +1,4 @@
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 # gileum
 from gileum.gileum import BaseGileum
@@ -15,7 +15,7 @@ from gileum.loader import (
 from gileum.manager import (
     GileumManager,
     SyncGileumManager,
-    get_glm_manager,
+    get_glm,
     init_glm_manager,
 )
 

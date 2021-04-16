@@ -7,7 +7,7 @@ import sys
 from typing import List, Optional
 
 from .gileum import BaseGileum
-from .manager import get_glm_manager
+from .manager import _get_glm_manager
 
 
 GILEUM_FILE_SUFFIX = ".glm.py"
@@ -62,7 +62,7 @@ def load_glms_at(
     mod = _import_directly(file)
     glms = _search_glm_from_mod(mod)
 
-    manager = get_glm_manager()
+    manager = _get_glm_manager()
     for glm in glms:
         if name is None:
             manager._set_glm(glm)
