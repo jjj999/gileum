@@ -1,5 +1,4 @@
 from __future__ import annotations
-from copy import deepcopy
 from threading import RLock
 from typing import (
     Dict,
@@ -17,7 +16,7 @@ Gileum_t = TypeVar("Gileum_t", bound=BaseGileum)
 class GileumManager:
 
     def __init__(self) -> None:
-        self.__glms: Dict[str, BaseGileum] = {}
+        self.__glms: Dict[Type[BaseGileum], Dict[str, BaseGileum]] = {}
 
     def _set_glm(self, glm: BaseGileum) -> None:
         if not isinstance(glm, BaseGileum):
@@ -29,21 +28,21 @@ class GileumManager:
         if glm.glm_name in self.__glms:
             return
 
-        self.__glms[glm.glm_name] = glm
+        if self.__glms.get(glm.__class__) is None:
+            self.__glms[glm.__class__] = {}
+        self.__glms[glm.__class__][glm.glm_name] = glm
 
     def get_glm(self, name: str, typ: Type[Gileum_t]) -> Gileum_t:
-        if name not in self.__glms:
-            raise KeyError
+        if typ not in self.__glms:
+            raise ValueError(
+                f"Any gileums typed with {typ.__name__} were not found."
+            )
+        if name not in self.__glms.get(typ):
+            raise ValueError(
+                f"{typ.__name__} named {name} was not found."
+            )
 
-        glm = self.__glms.get(name)
-        if not isinstance(glm, typ):
-            raise TypeError
-
-        return glm
-
-    @property
-    def glms(self) -> Dict[str, BaseGileum]:
-        return deepcopy(self.__glms)
+        return self.__glms.get(typ).get(name)
 
 
 class SyncGileumManager(GileumManager):
@@ -60,12 +59,6 @@ class SyncGileumManager(GileumManager):
     def get_glm(self, name: str, typ: Type[Gileum_t]) -> Gileum_t:
         with self.__lock:
             res = super().get_glm(name, typ)
-        return res
-
-    @property
-    def glms(self) -> Dict[str, BaseGileum]:
-        with self.__lock:
-            res = super().glms
         return res
 
 
