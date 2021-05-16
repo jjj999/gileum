@@ -6,3 +6,4 @@ dist/
 build/
 site/
 .env
+.vscode/
