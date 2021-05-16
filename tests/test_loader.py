@@ -43,12 +43,12 @@ class TestLoader(unittest.TestCase):
 
     def test_load_glms_at(self) -> None:
         load_glms_at(join(DIR_RES, FILE_SETTING))
-        glm = get_glm(GLM_NAME, MockGileum)
+        glm = get_glm(MockGileum, GLM_NAME)
         self.assertGileum(glm)
 
     def test_load_glms_in(self) -> None:
         load_glms_in(DIR_RES)
-        glm = get_glm(GLM_NAME, MockGileum)
+        glm = get_glm(MockGileum, GLM_NAME)
         self.assertGileum(glm)
 
 

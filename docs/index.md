@@ -42,13 +42,13 @@ load_glms_at(path_to_config)
 
 Note that the default suffix of configuration files is `.glm.py`, e.g. `config.glm.py`. There is also another function named `gileum.load_glms_in()`, which loads all the configuration files in specified directory.
 
-Fianlly, the developer can access to the `SampleGileum` objects loaded by calling `gileum.get_glm()` function:
+Fianlly, the developer can access to the `SampleGileum` objects loaded by calling the `gileum.get_glm()` method:
 
 ```python
 from gileum import get_glm
 
-config_main = get_glm("main", SampleGileum)
-config_test = get_glm("test", SampleGileum)
+config_main = get_glm(SampleGileum, "main")
+config_test = get_glm(SampleGileum, "test")
 
 # Now you can access to the fields of the SampleGileum objects.
 assert config_main.glm_name == "main"

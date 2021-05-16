@@ -32,7 +32,7 @@ class GileumManager:
             self.__glms[glm.__class__] = {}
         self.__glms[glm.__class__][glm.glm_name] = glm
 
-    def get_glm(self, name: str, typ: Type[Gileum_t]) -> Gileum_t:
+    def get_glm(self, typ: Type[Gileum_t], name: str = "main") -> Gileum_t:
         if typ not in self.__glms:
             raise ValueError(
                 f"Any gileums typed with {typ.__name__} were not found."
@@ -56,9 +56,9 @@ class SyncGileumManager(GileumManager):
         with self.__lock:
             super()._set_glm(glm)
 
-    def get_glm(self, name: str, typ: Type[Gileum_t]) -> Gileum_t:
+    def get_glm(self, typ: Type[Gileum_t], name: str = "main") -> Gileum_t:
         with self.__lock:
-            res = super().get_glm(name, typ)
+            res = super().get_glm(typ, name)
         return res
 
 
@@ -99,9 +99,9 @@ def _get_glm_manager() -> GileumManager_t:
     return __glm_man__
 
 
-def get_glm(glm_name: str, typ: Type[Gileum_t]) -> Gileum_t:
+def get_glm(typ: Type[Gileum_t], glm_name: str = "main") -> Gileum_t:
     glmman = _get_glm_manager()
-    return glmman.get_glm(glm_name, typ)
+    return glmman.get_glm(typ, glm_name)
 
 
 # NOTE
