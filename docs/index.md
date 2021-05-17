@@ -40,7 +40,7 @@ from gileum import load_glms_at
 load_glms_at(path_to_config)
 ```
 
-Note that the default suffix of configuration files is `.glm.py`, e.g. `config.glm.py`. There is also another function named `gileum.load_glms_in()`, which loads all the configuration files in specified directory.
+Note that configuration files have the naming rule like `glm_xxxxxx.py`, e.g. `glm_config.py`. There is also another function named `gileum.load_glms_in()`, which loads all the configuration files in specified directory.
 
 Fianlly, the developer can access to the `SampleGileum` objects loaded by calling the `gileum.get_glm()` method:
 
@@ -57,10 +57,10 @@ assert config_test.glm_name == "test"
 
 ### User-side
 
-A user of the app above needs to create a configuration file and generate two `SimpleGileum` objects. The location of the configuration file depends on apps the user uses. Now, let's assume that the name of the app package is *sample_app*, and in the app, the location is user's working directory. For example, the user can create a configuration file named `config.glm.py` and generate the `SimpleGileum` objects:
+A user of the app above needs to create a configuration file and generate two `SimpleGileum` objects. The location of the configuration file depends on apps the user uses. Now, let's assume that the name of the app package is *sample_app*, and in the app, the location is user's working directory. For example, the user can create a configuration file named `glm_config.py`, whose prefix is the naming rule of gileum, and generate the `SimpleGileum` objects:
 
 ```python
-# config.glm.py
+# glm_config.py
 from sample_app import SimpleGileum
 
 gileum_main = SimpleGileum(

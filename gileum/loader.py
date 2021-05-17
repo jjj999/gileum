@@ -33,32 +33,25 @@ def _search_glm_from_mod(mod: ModuleSpec) -> List[BaseGileum]:
     return [val for _, val in inspect.getmembers(mod, f_predicate)]
 
 
-def _parse_suffix(suffix: Optional[str]) -> str:
-    return GILEUM_FILE_SUFFIX if suffix is None else suffix
+def _has_glmfile_name(file: str) -> bool:
+    base = os.path.basename(file)
+    return base.startswith("glm_") and base.endswith(".py")
 
 
 def list_glmfiles(
     dir: str,
     join: bool = True,
-    suffix: Optional[str] = None
 ) -> List[str]:
-    suffix = _parse_suffix(suffix)
-    files = filter(lambda f: f.endswith(suffix), os.listdir(dir))
+    files = filter(_has_glmfile_name, os.listdir(dir))
     if join:
         files = map(lambda f: os.path.join(dir, f), files)
-
     return list(files)
 
 
 def load_glms_at(
     file: str,
     name: Optional[str] = None,
-    suffix: Optional[str] = None,
 ) -> None:
-    suffix = _parse_suffix(suffix)
-    if not os.path.basename(file).endswith(GILEUM_FILE_SUFFIX):
-        raise ValueError
-
     mod = _import_directly(file)
     glms = _search_glm_from_mod(mod)
 
@@ -73,7 +66,6 @@ def load_glms_at(
 def load_glms_in(
     dir: str,
     name: Optional[str] = None,
-    suffix: Optional[str] = None
 ) -> None:
-    for gilfile in list_glmfiles(dir, suffix=suffix):
-        load_glms_at(gilfile, name=name, suffix=suffix)
+    for gilfile in list_glmfiles(dir):
+        load_glms_at(gilfile, name=name)
