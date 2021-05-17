@@ -33,7 +33,7 @@ class TestLoader(unittest.TestCase):
         self.assertEqual(len(result), 1)
 
         glm_file = result[0]
-        self.assertTrue(basename(glm_file), "mock_setting.glm.py")
+        self.assertTrue(basename(glm_file), "glm_mock_setting.py")
 
     def assertGileum(self, glm: MockGileum) -> None:
         self.assertEqual(glm.test_name, TEST_NAME)
