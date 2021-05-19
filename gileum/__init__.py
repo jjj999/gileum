@@ -6,7 +6,6 @@ from gileum.gileum import BaseGileum
 
 # loader
 from gileum.loader import (
-    GILEUM_FILE_SUFFIX,
     list_glmfiles,
     load_glms_at,
     load_glms_in,

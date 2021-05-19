@@ -4,13 +4,10 @@ import inspect
 import os
 from pathlib import Path
 import sys
-from typing import List, Optional
+import typing as t
 
 from .gileum import BaseGileum
 from .manager import _get_glm_manager
-
-
-GILEUM_FILE_SUFFIX = ".glm.py"
 
 
 def _convert2relative_path(path: str) -> str:
@@ -28,7 +25,7 @@ def _import_directly(file: str) -> ModuleSpec:
     return mod
 
 
-def _search_glm_from_mod(mod: ModuleSpec) -> List[BaseGileum]:
+def _search_glm_from_mod(mod: ModuleSpec) -> t.List[BaseGileum]:
     f_predicate = lambda obj: isinstance(obj, BaseGileum)
     return [val for _, val in inspect.getmembers(mod, f_predicate)]
 
@@ -38,34 +35,22 @@ def _has_glmfile_name(file: str) -> bool:
     return base.startswith("glm_") and base.endswith(".py")
 
 
-def list_glmfiles(
-    dir: str,
-    join: bool = True,
-) -> List[str]:
+def list_glmfiles(dir: str, join: bool = True) -> t.List[str]:
     files = filter(_has_glmfile_name, os.listdir(dir))
     if join:
         files = map(lambda f: os.path.join(dir, f), files)
     return list(files)
 
 
-def load_glms_at(
-    file: str,
-    name: Optional[str] = None,
-) -> None:
+def load_glms_at(file: str) -> None:
     mod = _import_directly(file)
     glms = _search_glm_from_mod(mod)
 
     manager = _get_glm_manager()
     for glm in glms:
-        if name is None:
-            manager._set_glm(glm)
-        elif glm.__glm_name__ == name:
-            manager._set_glm(glm)
+        manager._set_glm(glm)
 
 
-def load_glms_in(
-    dir: str,
-    name: Optional[str] = None,
-) -> None:
+def load_glms_in(dir: str) -> None:
     for gilfile in list_glmfiles(dir):
-        load_glms_at(gilfile, name=name)
+        load_glms_at(gilfile)

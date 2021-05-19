@@ -1,22 +1,17 @@
 from __future__ import annotations
 from threading import RLock
-from typing import (
-    Dict,
-    Optional,
-    Type,
-    TypeVar,
-)
+import typing as t
 
 from .gileum import BaseGileum
 
 
-Gileum_t = TypeVar("Gileum_t", bound=BaseGileum)
+Gileum_t = t.TypeVar("Gileum_t", bound=BaseGileum)
 
 
 class GileumManager:
 
     def __init__(self) -> None:
-        self.__glms: Dict[Type[BaseGileum], Dict[str, BaseGileum]] = {}
+        self.__glms: t.Dict[t.Type[BaseGileum], t.Dict[str, BaseGileum]] = {}
 
     def _set_glm(self, glm: BaseGileum) -> None:
         if not isinstance(glm, BaseGileum):
@@ -32,7 +27,7 @@ class GileumManager:
             self.__glms[glm.__class__] = {}
         self.__glms[glm.__class__][glm.glm_name] = glm
 
-    def get_glm(self, typ: Type[Gileum_t], name: str = "main") -> Gileum_t:
+    def get_glm(self, typ: t.Type[Gileum_t], name: str = "main") -> Gileum_t:
         if typ not in self.__glms:
             raise ValueError(
                 f"Any gileums typed with {typ.__name__} were not found."
@@ -56,7 +51,7 @@ class SyncGileumManager(GileumManager):
         with self.__lock:
             super()._set_glm(glm)
 
-    def get_glm(self, typ: Type[Gileum_t], name: str = "main") -> Gileum_t:
+    def get_glm(self, typ: t.Type[Gileum_t], name: str = "main") -> Gileum_t:
         with self.__lock:
             res = super().get_glm(typ, name)
         return res
@@ -66,8 +61,8 @@ class GileumManagerAlreadySetError(Exception):
     pass
 
 
-GileumManager_t = TypeVar("GileumManager_t", bound=GileumManager)
-__glm_man__: Optional[GileumManager_t] = None
+GileumManager_t = t.TypeVar("GileumManager_t", bound=GileumManager)
+__glm_man__: t.Optional[GileumManager_t] = None
 
 
 def init_glm_manager(manager: GileumManager_t) -> None:
@@ -99,7 +94,7 @@ def _get_glm_manager() -> GileumManager_t:
     return __glm_man__
 
 
-def get_glm(typ: Type[Gileum_t], glm_name: str = "main") -> Gileum_t:
+def get_glm(typ: t.Type[Gileum_t], glm_name: str = "main") -> Gileum_t:
     glmman = _get_glm_manager()
     return glmman.get_glm(typ, glm_name)
 
